@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Question Crawler</string>
+
+    <string-array name="city_array">
+        <item>attock</item>
+        <item>nowshera</item>
+        <item>abotabad</item>
+        <item>new york</item>
+    </string-array>
+
+    <string-array name="sortitem_array">
+        <item>active</item>
+        <item>votes</item>
+        <item>newest</item>
+    </string-array>
+
+    <string-array name="category_array">
+        <item>program</item>
+        <item>softwaredesign</item>
+        <item>calculus</item>
+        <item>softwareissue</item>
+        <item>project</item>
+        <item>softwarematerial</item>
+        <item>admission</item>
+        <item>other</item>
+    </string-array>
+</resources>

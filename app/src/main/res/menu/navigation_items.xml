@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_item1"
+        android:icon="@drawable/ic_menu_black_24dp"
+        android:title="Menu"/>
+    <item
+        android:id="@+id/action_item2"
+        android:icon="@drawable/ic_cloud_download_black_24dp"
+        android:title="Crawler"/>
+    <item
+        android:id="@+id/action_item3"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profile"/>
+
+</menu>

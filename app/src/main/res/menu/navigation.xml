@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigationCrawlerForWeb"
+        android:icon="@drawable/ic_cloud_download_black_24dp"
+        android:title="Crawler" />
+
+    <item
+        android:id="@+id/navigationUserAccount"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="User Account" />
+
+</menu>
