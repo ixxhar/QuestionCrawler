@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selectedAnswerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    tools:context=".ViewCompleteAnswerActivity">
+
+    <ImageView
+        android:id="@+id/imageViewAnswerPostedUserSelected"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/textViewAnswerBySelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageViewAnswerPostedUserSelected"
+        android:text="Answered By!"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <TextView
+        android:id="@+id/textViewAnswerPostedBySelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewAnswerBySelected"
+        android:layout_toRightOf="@+id/imageViewAnswerPostedUserSelected"
+        android:text="Answer Date"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textViewAnswerDescriptionSelected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewAnswerPostedUserSelected"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:text="Answer Date"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
