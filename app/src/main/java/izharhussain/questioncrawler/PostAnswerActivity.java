@@ -27,11 +27,15 @@ public class PostAnswerActivity extends AppCompatActivity {
 
     private String questionID, answerPostDate, answeredBy = "punkass";//values got from intents
 
+    private QuestionModelClass questionModelClass1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postanswer);
+
+        questionModelClass1= (QuestionModelClass) getIntent().getSerializableExtra("SelectedQuestion");
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -64,11 +68,16 @@ public class PostAnswerActivity extends AppCompatActivity {
                         answerModelClass.setAnswerBy(answeredBy);
                         answerModelClass.setDate(answerPostDate);
                         answerModelClass.setQuestionID(questionID);
+                        answerModelClass.setAnswerByEmail(firebaseAuth.getCurrentUser().getEmail());
 
                         databaseReference.child("Answers").push().setValue(answerModelClass);
 
                         Log.d(TAG, "onClick: User Entered");
                         Toast.makeText(getApplicationContext(), "user entered successfully", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(PostAnswerActivity.this,SelectedQuestionActivity.class);
+                        intent.putExtra("SelectedQuestion",questionModelClass);
+                        startActivity(intent);
                         finish();
                     }
                 }

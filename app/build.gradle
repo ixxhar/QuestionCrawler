@@ -4,8 +4,8 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "izharhussain.questioncrawler"
-        minSdkVersion 24
-        targetSdkVersion 26
+        minSdkVersion 19
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.1.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    compile 'com.makeramen:roundedimageview:2.3.0'
+
 
 }
 

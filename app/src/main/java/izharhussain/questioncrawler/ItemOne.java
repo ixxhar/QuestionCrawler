@@ -57,46 +57,46 @@ public class ItemOne extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.one:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "program");
+                intent.putExtra("category", "Program");
                 startActivity(intent);
                 break;
 
             case R.id.two:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "softwaredesign");
+                intent.putExtra("category", "Software Design");
                 startActivity(intent);
                 break;
             case R.id.three:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "calculus");
+                intent.putExtra("category", "Calculus");
                 startActivity(intent);
                 break;
 
             case R.id.four:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "softwareissue");
+                intent.putExtra("category", "Software and Issues");
                 startActivity(intent);
                 break;
             case R.id.five:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "project");
+                intent.putExtra("category", "Projects");
                 startActivity(intent);
                 break;
 
             case R.id.six:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "softwarematerial");
+                intent.putExtra("category", "Software Material");
                 startActivity(intent);
                 break;
             case R.id.seven:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "admission");
+                intent.putExtra("category", "Admission");
                 startActivity(intent);
                 break;
 
             case R.id.eight:
                 intent = new Intent(getContext(), QuestionsActivity.class);
-                intent.putExtra("category", "other");
+                intent.putExtra("category", "Others");
                 startActivity(intent);
                 break;
 

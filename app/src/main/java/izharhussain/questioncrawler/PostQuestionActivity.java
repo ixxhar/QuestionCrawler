@@ -118,12 +118,13 @@ public class PostQuestionActivity extends AppCompatActivity {
                         questionModelClass.setDate(questionPostDate);
                         questionModelClass.setPostedBy(postedBy);
                         questionModelClass.setTimeLimit(String.valueOf(tvTimeLimit.getText()));
+                        questionModelClass.setPostedByEmail(firebaseAuth.getCurrentUser().getEmail());
 
                         databaseReference.child("Questions").push().setValue(questionModelClass);
 
                         Log.d(TAG, "onClick: User Entered");
                         Toast.makeText(getApplicationContext(), "question posted successfully", Toast.LENGTH_SHORT).show();
-                        goToMenuActivity();
+                        finish();
 
                     }
                 }

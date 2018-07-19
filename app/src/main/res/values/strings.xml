@@ -9,19 +9,19 @@
     </string-array>
 
     <string-array name="sortitem_array">
-        <item>active</item>
-        <item>votes</item>
-        <item>newest</item>
+        <item>Active</item>
+        <item>Votes</item>
+        <item>Newest</item>
     </string-array>
 
     <string-array name="category_array">
-        <item>program</item>
-        <item>softwaredesign</item>
-        <item>calculus</item>
-        <item>softwareissue</item>
-        <item>project</item>
-        <item>softwarematerial</item>
-        <item>admission</item>
-        <item>other</item>
+        <item>Program</item>
+        <item>Software Design</item>
+        <item>Calculus</item>
+        <item>Software and Issues</item>
+        <item>Projects</item>
+        <item>Software Material</item>
+        <item>Admission</item>
+        <item>Others</item>
     </string-array>
 </resources>

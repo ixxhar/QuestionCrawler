@@ -2,10 +2,15 @@ package izharhussain.questioncrawler;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class ItemThree extends Fragment {
     private View v;
@@ -30,6 +38,8 @@ public class ItemThree extends Fragment {
     private Button button;
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
+
+    private Transformation transformation;
 
     public static ItemThree newInstance() {
         ItemThree fragment = new ItemThree();
@@ -42,12 +52,14 @@ public class ItemThree extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.itemthree, container, false);
+
         tvLoggedInUserName = (TextView) v.findViewById(R.id.textViewLoggedInUser);
         tvLoggedInUserEmail = (TextView) v.findViewById(R.id.textViewLoggedInEmail);
         ivUserImage = (ImageView) v.findViewById(R.id.imageViewLoggedInUser);
+
+        transformationForPicasso();
 
         button = (Button) v.findViewById(R.id.buttonGoToMessages);
 
@@ -64,9 +76,9 @@ public class ItemThree extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     try {
-                        Picasso.get().load(task.getResult()).into(ivUserImage);
+                        Picasso.get().load(task.getResult()).transform(transformation).into(ivUserImage);
                     } catch (Exception e) {
-                        Picasso.get().load(R.drawable.image).into(ivUserImage);
+                        Picasso.get().load(R.drawable.image).transform(transformation).into(ivUserImage);
                     }
                 }
             });
@@ -114,5 +126,14 @@ public class ItemThree extends Fragment {
         }
 
         return v;
+    }
+
+    private void transformationForPicasso(){
+        transformation = new RoundedTransformationBuilder()
+                .borderColor(Color.BLACK)
+                .borderWidthDp(3)
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
     }
 }

@@ -8,7 +8,7 @@
     tools:context=".QuestionsActivity">
 
     <Spinner
-        android:id="@+id/spinnerType"
+        android:id="@+id/spinnerTypeSort"
         android:layout_width="116dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"

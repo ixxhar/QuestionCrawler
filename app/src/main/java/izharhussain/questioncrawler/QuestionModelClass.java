@@ -3,7 +3,15 @@ package izharhussain.questioncrawler;
 import java.io.Serializable;
 
 public class QuestionModelClass implements Serializable {
-    private String id, category, title, description, date, postedBy, timeLimit;
+    private String id, category, title, description, date, postedBy, timeLimit, postedByEmail;
+
+    public String getPostedByEmail() {
+        return postedByEmail;
+    }
+
+    public void setPostedByEmail(String postedByEmail) {
+        this.postedByEmail = postedByEmail;
+    }
 
     public String getTimeLimit() {
         return timeLimit;
@@ -70,6 +78,8 @@ public class QuestionModelClass implements Serializable {
                 ", description='" + description + '\'' +
                 ", date='" + date + '\'' +
                 ", postedBy='" + postedBy + '\'' +
+                ", timeLimit='" + timeLimit + '\'' +
+                ", postedByEmail='" + postedByEmail + '\'' +
                 '}';
     }
 }

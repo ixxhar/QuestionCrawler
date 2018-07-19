@@ -1,8 +1,13 @@
 package izharhussain.questioncrawler;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +31,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.Date;
 
@@ -35,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private EditText etName, etPassword, etEmail, etCity;
+    private EditText etName, etPassword, etEmail, etCity, etConfirmPassword;
     private ImageView imUserImage;
     private UserModelClass userModelClass;
 
@@ -44,6 +52,9 @@ public class SignUpActivity extends AppCompatActivity {
     private StorageReference storageReference;
 
     private Uri selectedImageURI;
+
+    private Transformation transformation;
+
 
 
     @Override
@@ -79,45 +90,54 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    boolean forSignupFields() {
+        if (etEmail.getText().length() == 0 || !android.util.Patterns.EMAIL_ADDRESS.matcher(String.valueOf(etEmail.getText())).matches()) {
+            Toast.makeText(getApplicationContext(), "Incorrect Email Address!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etName.getText().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Enter Your Name!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (etPassword.getText().length() <= 6) {
+            Toast.makeText(getApplicationContext(), "Password should be more than 6 characters", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void signupYo() {
         findViewById(R.id.buttonSignUp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (etEmail.getText().length()==0||etName.getText().length()==0||etPassword.getText().length()==0){
-                    Log.d(TAG, "onClick: Empty Fields!");
-                    Toast.makeText(getApplicationContext(),"one of the field is empty",Toast.LENGTH_SHORT).show();
-                }else {
+                if (forSignupFields()&&String.valueOf(etPassword.getText()).equals(String.valueOf(etConfirmPassword.getText()))) {
+                    Log.d(TAG, "onClick: Shit is working");
+                    firebaseAuth.createUserWithEmailAndPassword(String.valueOf(etEmail.getText()), String.valueOf(etPassword.getText())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(String.valueOf(etEmail.getText())).matches()&&etPassword.getText().length()<=6){
-                        Log.d(TAG, "onClick: incorrect email address");
-                        Toast.makeText(getApplicationContext(),"incorrect email address",Toast.LENGTH_SHORT).show();
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    }else {
-                        firebaseAuth.createUserWithEmailAndPassword(String.valueOf(etEmail.getText()),String.valueOf(etPassword.getText())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(String.valueOf(etName.getText())).build();
 
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                user.updateProfile(profileUpdates);
 
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(String.valueOf(etName.getText())).build();
-
-                                    user.updateProfile(profileUpdates);
-
-                                    addUserRecordToDatabase(task.getResult().getUser());
-                                }else {
-                                    Toast.makeText(getApplicationContext(),"[ Password should be at least 6 characters ]",Toast.LENGTH_SHORT).show();
-                                }
+                                addUserRecordToDatabase(task.getResult().getUser());
+                            }else {
+                                Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
-                    }
+                        }
+                    });
+                }else {
+                    Toast.makeText(getApplicationContext(), "confirm Password!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: shit is not working...");
                 }
             }
         });
     }
 
-    private void addUserRecordToDatabase(final FirebaseUser user){
+    private void addUserRecordToDatabase(final FirebaseUser user) {
         userModelClass.setName(String.valueOf(etName.getText()));
         userModelClass.setEmail(String.valueOf(etEmail.getText()));
         userModelClass.setPassword(String.valueOf(etPassword.getText()));
@@ -134,36 +154,37 @@ public class SignUpActivity extends AppCompatActivity {
 
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         databaseReference.child("RegisteredUsers").child(user.getUid()).setValue(userModelClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     goToMenuActivity();
                 }
             }
         });
 
         Log.d(TAG, "onClick: User Entered");
-        Toast.makeText(getApplicationContext(),"user entered successfully",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "user entered successfully", Toast.LENGTH_SHORT).show();
     }
 
     private void forFirebaseInstances() {
-        databaseReference= FirebaseDatabase.getInstance().getReference();
-        firebaseAuth=FirebaseAuth.getInstance();
-        storageReference= FirebaseStorage.getInstance().getReference();
-        userModelClass=new UserModelClass();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        userModelClass = new UserModelClass();
     }
 
     private void bindViews() {
-        etName=(EditText)findViewById(R.id.editTextNameSignUp);
-        etEmail=(EditText)findViewById(R.id.editTextEmailSignUp);
-        etPassword=(EditText)findViewById(R.id.editTextPasswordSignUp);
-        etCity=(EditText)findViewById(R.id.editTextCitySignup);
-        imUserImage=(ImageView)findViewById(R.id.imageViewUserImage);
+        etName = (EditText) findViewById(R.id.editTextNameSignUp);
+        etEmail = (EditText) findViewById(R.id.editTextEmailSignUp);
+        etPassword = (EditText) findViewById(R.id.editTextPasswordSignUp);
+        etCity = (EditText) findViewById(R.id.editTextCitySignup);
+        imUserImage = (ImageView) findViewById(R.id.imageViewUserImage);
+        etConfirmPassword = (EditText) findViewById(R.id.editTextConfirmPasswordSignUp);
     }
 
     private void goToMenuActivity() {
@@ -185,6 +206,15 @@ public class SignUpActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         selectedImageURI = data.getData();
-        Picasso.get().load(selectedImageURI).into(imUserImage);
+        Picasso.get().load(selectedImageURI).transform(transformation).into(imUserImage);
+    }
+
+    private void transformationForPicasso(){
+        transformation = new RoundedTransformationBuilder()
+                .borderColor(Color.BLACK)
+                .borderWidthDp(3)
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
     }
 }

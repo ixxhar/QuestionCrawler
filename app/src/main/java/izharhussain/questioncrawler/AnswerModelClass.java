@@ -1,7 +1,9 @@
 package izharhussain.questioncrawler;
 
-public class AnswerModelClass {
-    private String questionID, description, answerBy, date;
+import java.io.Serializable;
+
+public class AnswerModelClass implements Serializable {
+    private String questionID, description, answerBy, date, answerByEmail;
 
     public String getQuestionID() {
         return questionID;
@@ -35,6 +37,14 @@ public class AnswerModelClass {
         this.date = date;
     }
 
+    public String getAnswerByEmail() {
+        return answerByEmail;
+    }
+
+    public void setAnswerByEmail(String answerByEmail) {
+        this.answerByEmail = answerByEmail;
+    }
+
     @Override
     public String toString() {
         return "AnswerModelClass{" +
@@ -42,6 +52,7 @@ public class AnswerModelClass {
                 ", description='" + description + '\'' +
                 ", answerBy='" + answerBy + '\'' +
                 ", date='" + date + '\'' +
+                ", answerByEmail='" + answerByEmail + '\'' +
                 '}';
     }
 }

@@ -62,7 +62,7 @@ public class UsersForChatActivity extends AppCompatActivity {
 
     private void forSearchView() {
         svSearchNearestUsers = (android.widget.SearchView) findViewById(R.id.searchViewNearestUsers);
-        svSearchNearestUsers.setQueryHint("City Name");
+        svSearchNearestUsers.setQueryHint("User's Name");
 
         svSearchNearestUsers.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -78,8 +78,6 @@ public class UsersForChatActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                cityToBeSearhed = newText;
-                queryAllUsers();
                 return false;
             }
         });
@@ -132,7 +130,7 @@ public class UsersForChatActivity extends AppCompatActivity {
 
     private void queryAllUsers() {
         childEventListener = getChildEventListener();
-        databaseReference.orderByChild("city").equalTo(cityToBeSearhed).addChildEventListener(childEventListener);
+        databaseReference.orderByChild("name").equalTo(cityToBeSearhed).addChildEventListener(childEventListener);
         //databaseReference.limitToFirst(50).addChildEventListener(childEventListener);
     }
 

@@ -1,85 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/backg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PostQuestionActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="16dp"
+        android:text="Post Question"
+        android:textSize="30sp" />
 
     <Spinner
-        android:id="@+id/spinnerQuestionCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextQuestionTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:spinnerMode="dialog"
+        android:id="@+id/spinnerQuestionCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <EditText
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+
         android:id="@+id/editTextQuestionTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:ems="10"
-        android:hint="title"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/editTextQuestionDescription"
-        app:layout_constraintStart_toStartOf="@+id/editTextQuestionDescription"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerQuestionCategory" />
+        android:hint="Title"
+        android:inputType="text"/>
 
     <EditText
-        android:id="@+id/editTextQuestionDescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="31dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="description"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonSetTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextQuestionTitle" />
 
-    <Button
-        android:id="@+id/buttonQuestionPost"
-        android:layout_width="wrap_content"
+        android:id="@+id/editTextQuestionDescription"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="post"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonSetTime" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+
+        android:gravity="top|left"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:lines="7"
+        android:scrollHorizontally="false" />
+
 
     <TextView
         android:id="@+id/textViewTimeLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:layout_marginTop="31dp"
-        android:text="undefined"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtonSetTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextQuestionDescription" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+        android:text="Tap on Clock Icon to Set Time Limit for Answer"
+        android:textAlignment="center" />
 
     <ImageButton
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+
         android:id="@+id/imageButtonSetTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="97dp"
-        android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toTopOf="@+id/buttonQuestionPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewTimeLimit"
-        app:layout_constraintTop_toBottomOf="@+id/editTextQuestionDescription"
-        app:srcCompat="@drawable/ic_access_time_black_24dp" />
+        android:src="@drawable/ic_access_time_black_24dp"/>
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+
+        android:id="@+id/buttonQuestionPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="post" />
+
+</LinearLayout>

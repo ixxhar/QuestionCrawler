@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                                     setUserOnline();
                                     goToMenuActivity();
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "no such user exists", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

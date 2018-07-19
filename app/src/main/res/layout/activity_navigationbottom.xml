@@ -16,7 +16,8 @@
         android:layout_marginBottom="70dp"
         android:layout_marginEnd="30dp"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
+        android:background="#3a45a2"
+        android:src="@drawable/ic_add_black_24dp" />
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -32,8 +33,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        app:itemIconTint="@color/nav_item_state_list"
-        app:itemTextColor="@color/nav_item_state_list"
+        android:background="#f7f7f7"
+        app:itemIconTint="#3944a2"
+        app:itemTextColor="#7f807f"
         app:menu="@menu/navigation_items" />
 </RelativeLayout>
