@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -31,13 +36,22 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemThree extends Fragment {
+    private static final String TAG = "ItemThree";
+
     private View v;
     private TextView tvLoggedInUserName, tvLoggedInUserEmail;
     private ImageView ivUserImage;
     private Button button;
     private FirebaseAuth firebaseAuth;
     private StorageReference storageReference;
+
+    private DatabaseReference databaseReference;
+    private UserModelClass userModelClass;
+
 
     private Transformation transformation;
 
@@ -65,6 +79,7 @@ public class ItemThree extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         if (firebaseAuth.getCurrentUser() != null) {
             tvLoggedInUserEmail.setVisibility(View.VISIBLE);
@@ -83,12 +98,44 @@ public class ItemThree extends Fragment {
                 }
             });
 
+            if (storageReference != null && firebaseAuth != null) {
+                databaseReference.child("RegisteredUsers").orderByChild("email").equalTo(firebaseAuth.getCurrentUser().getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        List list = new ArrayList<UserModelClass>();
+                        for (DataSnapshot dSShot : dataSnapshot.getChildren()) {
+                            list.add(dSShot.getValue(UserModelClass.class));
+                        }
+                        Log.d(TAG, "Records: for UserModelClass " + list.size());
+
+                        for (int i = 0; i < list.size(); i++) {
+
+                            userModelClass = (UserModelClass) list.get(i);
+
+                            if (new String(userModelClass.getEmail()).equals(firebaseAuth.getCurrentUser().getEmail())) {
+                                Log.d(TAG, "onDataChange: true!   " + userModelClass.toString());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
 
             button.setText("Go to Messages");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getContext(), UsersForChatActivity.class));
+                    Intent intent = new Intent(getContext(), UsersForChatActivity.class);
+                    if (userModelClass != null) {
+                        intent.putExtra("LoggedInUser", userModelClass);
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -128,7 +175,7 @@ public class ItemThree extends Fragment {
         return v;
     }
 
-    private void transformationForPicasso(){
+    private void transformationForPicasso() {
         transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
                 .borderWidthDp(3)

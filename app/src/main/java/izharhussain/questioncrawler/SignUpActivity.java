@@ -56,7 +56,6 @@ public class SignUpActivity extends AppCompatActivity {
     private Transformation transformation;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         forFirebaseInstances();
         signupYo();
         loginYO();
+        transformationForPicasso();
         forImageYO();
 
     }
@@ -110,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (forSignupFields()&&String.valueOf(etPassword.getText()).equals(String.valueOf(etConfirmPassword.getText()))) {
+                if (forSignupFields() && String.valueOf(etPassword.getText()).equals(String.valueOf(etConfirmPassword.getText()))) {
                     Log.d(TAG, "onClick: Shit is working");
                     firebaseAuth.createUserWithEmailAndPassword(String.valueOf(etEmail.getText()), String.valueOf(etPassword.getText())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -124,12 +124,12 @@ public class SignUpActivity extends AppCompatActivity {
                                 user.updateProfile(profileUpdates);
 
                                 addUserRecordToDatabase(task.getResult().getUser());
-                            }else {
+                            } else {
                                 Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "confirm Password!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onClick: shit is not working...");
                 }
@@ -205,11 +205,15 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        selectedImageURI = data.getData();
-        Picasso.get().load(selectedImageURI).transform(transformation).into(imUserImage);
+        try {
+            selectedImageURI = data.getData();
+            Picasso.get().load(selectedImageURI).transform(transformation).into(imUserImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void transformationForPicasso(){
+    private void transformationForPicasso() {
         transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
                 .borderWidthDp(3)

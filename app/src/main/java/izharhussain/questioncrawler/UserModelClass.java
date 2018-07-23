@@ -2,7 +2,9 @@ package izharhussain.questioncrawler;
 
 import android.net.Uri;
 
-public class UserModelClass {
+import java.io.Serializable;
+
+public class UserModelClass implements Serializable {
     private String name, email, password, city;
 
     //modifications for chat

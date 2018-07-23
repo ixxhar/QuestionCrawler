@@ -94,16 +94,19 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
 
         @Override
         public void onClick(View v) {
-                UserModelClass userModelClass = userModelClassList.get(getLayoutPosition());
+            UserModelClass userModelClass = userModelClassList.get(getLayoutPosition());
+
+            Log.d(TAG, "onClick currentUserCreatedAt: " + currentUserCreatedAt);
+            Log.d(TAG, "onClick: userModelClass.getCreatedAt() " + userModelClass.getCreatedAt());
 
             try {
-            String uniqueChatRef = "";
-            if (currentUserCreatedAt > userModelClass.getCreatedAt()) {
-                uniqueChatRef = cleanEmailAddress(currentUserEmail) + "-" + cleanEmailAddress(userModelClass.getEmail());
-            } else {
+                String uniqueChatRef = "";
+                if (currentUserCreatedAt > userModelClass.getCreatedAt()) {
+                    uniqueChatRef = cleanEmailAddress(currentUserEmail) + "-" + cleanEmailAddress(userModelClass.getEmail());
+                } else {
 
-                uniqueChatRef = cleanEmailAddress(userModelClass.getEmail()) + "-" + cleanEmailAddress(currentUserEmail);
-            }
+                    uniqueChatRef = cleanEmailAddress(userModelClass.getEmail()) + "-" + cleanEmailAddress(currentUserEmail);
+                }
 
 
                 Intent chatIntent = new Intent(contexttt, ChatActivity.class);
@@ -113,7 +116,7 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
 
                 // Start new activity
                 contexttt.startActivity(chatIntent);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

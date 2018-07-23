@@ -35,6 +35,10 @@ public class UsersForChatActivity extends AppCompatActivity {
     private android.widget.SearchView svSearchNearestUsers;
     private String cityToBeSearhed;
 
+    private boolean justOnce = false;
+
+    UserModelClass userModelClassFromIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,12 @@ public class UsersForChatActivity extends AppCompatActivity {
         setAuthListener();
         forSearchView();
         forClearingChats();
+
+        userModelClassFromIntent = (UserModelClass) getIntent().getSerializableExtra("LoggedInUser");
+        Log.d(TAG, "onCreate: " + userModelClassFromIntent.toString());
+
+        usersChatAdapter.setCurrentUserInfo(firebaseAuth.getUid(), firebaseAuth.getCurrentUser().getEmail(), userModelClassFromIntent.getCreatedAt());
+
     }
 
     private void forClearingChats() {
@@ -168,19 +178,9 @@ public class UsersForChatActivity extends AppCompatActivity {
         usersKeyList.clear();
     }
 
-    private void logout() {
-        setUserOffline();
-        firebaseAuth.signOut();
-    }
-
-    private void setUserOffline() {
-        if (firebaseAuth.getCurrentUser() != null) {
-            String userId = firebaseAuth.getCurrentUser().getUid();
-            databaseReference.child(userId).child("connection").setValue(UsersChatAdapter.OFFLINE);
-        }
-    }
-
     private ChildEventListener getChildEventListener() {
+        Log.d(TAG, "getChildEventListener: ");
+
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -189,15 +189,10 @@ public class UsersForChatActivity extends AppCompatActivity {
 
                     String userUid = dataSnapshot.getKey();
 
-                    if (dataSnapshot.getKey().equals(currentUserUID)) {
-                        UserModelClass currentUser = dataSnapshot.getValue(UserModelClass.class);
-                        usersChatAdapter.setCurrentUserInfo(userUid, currentUser.getEmail(), currentUser.getCreatedAt());
-                    } else {
-                        UserModelClass recipient = dataSnapshot.getValue(UserModelClass.class);
-                        recipient.setRecipientID(userUid);
-                        usersKeyList.add(userUid);
-                        usersChatAdapter.refill(recipient);
-                    }
+                    UserModelClass recipient = dataSnapshot.getValue(UserModelClass.class);
+                    recipient.setRecipientID(userUid);
+                    usersKeyList.add(userUid);
+                    usersChatAdapter.refill(recipient);
                 }
 
             }
